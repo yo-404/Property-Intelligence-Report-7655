@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellington 7655 — Property Intelligence Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --surface-2: #faf9f7;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --text-primary: #1c1b18;
+    --text-secondary: #4a4840;
+    --text-muted: #8a8780;
+    --accent: #1a4f7a;
+    --accent-2: #c8803a;
+    --accent-light: #e8f2fb;
+    --accent-mid: #aacde8;
+    --green: #2d5c1e;
+    --green-bg: #e8f3e3;
+    --amber: #7a4400;
+    --amber-bg: #fdf0dc;
+    --red: #8c2020;
+    --red-bg: #fceaea;
+    --teal: #0d5c47;
+    --teal-bg: #e0f4ed;
+    --coral: #8c3218;
+    --coral-bg: #faece5;
+    --purple: #4a40b0;
+    --purple-bg: #eeecff;
+    --sidebar-w: 240px;
+    --header-h: 60px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #181714;
+      --surface: #222018;
+      --surface-2: #1c1a13;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.15);
+      --text-primary: #ede9e0;
+      --text-secondary: #a8a49a;
+      --text-muted: #6b6860;
+      --accent: #7ab5e0;
+      --accent-2: #e8a060;
+      --accent-light: #0b3a5c;
+      --accent-mid: #154e78;
+      --green: #a8d880;
+      --green-bg: #1e3d0a;
+      --amber: #f0b860;
+      --amber-bg: #4a2800;
+      --red: #f0a0a0;
+      --red-bg: #5c1414;
+      --teal: #80d8b8;
+      --teal-bg: #063828;
+      --coral: #f0a888;
+      --coral-bg: #5c2010;
+      --purple: #a09cef;
+      --purple-bg: #2c2878;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LAYOUT SHELL ── */
+  .shell { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border-strong);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0 0 32px;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .logo-postcode {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .logo-town {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .logo-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .nav-section-label {
+    padding: 20px 20px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-left: 2.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.3;
+  }
+
+  .nav-item:hover { color: var(--accent); background: var(--accent-light); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-light); font-weight: 600; }
+
+  .nav-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg);
+    border-radius: 4px;
+    padding: 1px 5px;
+    flex-shrink: 0;
+  }
+
+  .nav-legend {
+    padding: 16px 20px;
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-legend-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  /* ── MOBILE HEADER ── */
+  .mobile-header {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 12px 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .mobile-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mobile-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .menu-btn {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4.5px;
+    flex-shrink: 0;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  /* Mobile drawer */
+  .mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .mobile-nav-overlay.open { opacity: 1; }
+
+  .mobile-nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--surface);
+    z-index: 400;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    padding-bottom: 32px;
+  }
+
+  .mobile-nav-drawer.open { transform: translateX(0); }
+
+  .drawer-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 960px;
+    min-width: 0;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .page-header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 10px;
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .page-header .meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .meta-pill {
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: var(--text-secondary);
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: box-shadow 0.15s;
+  }
+
+  .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+  .stat-card .label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .stat-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+  }
+
+  .stat-card .sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  .stat-card.accent { background: var(--accent-light); border-color: var(--accent-mid); }
+  .stat-card.accent .value { color: var(--accent); }
+  .stat-card.green { background: var(--green-bg); border-color: var(--green); }
+  .stat-card.green .value { color: var(--green); }
+  .stat-card.amber { background: var(--amber-bg); border-color: var(--amber); }
+  .stat-card.amber .value { color: var(--amber); }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 48px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .section-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: 400;
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 480px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border-strong);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .data-table th:first-child { border-radius: 11px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 11px 0 0; }
+
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .data-table tr:last-child td:first-child { border-radius: 0 0 0 11px; }
+  .data-table tr:last-child td:last-child { border-radius: 0 0 11px 0; }
+
+  .data-table .row-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    width: 36px;
+  }
+
+  .data-table .field {
+    color: var(--text-secondary);
+    font-weight: 500;
+    width: 30%;
+    min-width: 130px;
+  }
+
+  .data-table .val { color: var(--text-primary); font-weight: 400; }
+  .data-table .val.highlight { color: var(--accent); font-weight: 600; }
+  .data-table .val.green { color: var(--green); font-weight: 500; }
+  .data-table .val.amber { color: var(--amber); font-weight: 500; }
+  .data-table .val.red { color: var(--red); font-weight: 500; }
+
+  .data-table .src-col { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .data-table tr:hover td { background: var(--accent-light); }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10.5px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  .badge.confirmed { background: var(--green-bg); color: var(--green); border: 1px solid rgba(45,92,30,0.2); }
+  .badge.estimated { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(122,68,0,0.2); }
+  .badge.verify { background: var(--red-bg); color: var(--red); border: 1px solid rgba(140,32,32,0.2); }
+  .badge.policy { background: var(--purple-bg); color: var(--purple); border: 1px solid rgba(74,64,176,0.2); }
+
+  /* ── INFO / WARN BOXES ── */
+  .info-box {
+    background: var(--teal-bg);
+    border: 1px solid rgba(13,92,71,0.25);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .info-box .box-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .warn-box {
+    background: var(--amber-bg);
+    border: 1px solid rgba(122,68,0,0.25);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .warn-box .box-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── CHART BARS ── */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+
+  .chart-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .bar-label {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    width: 170px;
+    min-width: 170px;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .bar-track {
+    flex: 1;
+    background: var(--border);
+    border-radius: 4px;
+    height: 18px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    min-width: 60px;
+    position: relative;
+  }
+
+  .bar-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .bar-val.outside {
+    color: var(--text-primary);
+    position: absolute;
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* ── TWO-COL GRID ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .full { grid-column: 1 / -1; }
+
+  /* ── SUBURB CARDS ── */
+  .suburb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+
+  .suburb-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: box-shadow 0.15s;
+  }
+
+  .suburb-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+
+  .suburb-card .s-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .suburb-card .s-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin: 4px 0;
+  }
+
+  .suburb-card .s-detail { font-size: 11px; color: var(--text-muted); }
+  .suburb-card.focus { border-color: var(--accent-mid); background: var(--accent-light); }
+  .suburb-card.focus .s-price { color: var(--accent); }
+
+  /* ── TARIFF ROWS ── */
+  .tariff-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .tariff-row:last-child { border-bottom: none; }
+  .tariff-name { font-size: 13px; color: var(--text-secondary); flex: 1; }
+  .tariff-pct { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 700; white-space: nowrap; }
+  .tariff-pct.high { color: var(--red); }
+  .tariff-pct.mid { color: var(--amber); }
+  .tariff-pct.low { color: var(--green); }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-strong);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .footer-block strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  /* ── SECTION RANK LABEL ── */
+  .rank-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 16px 0 10px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar, .mobile-header, .mobile-nav-overlay, .mobile-nav-drawer { display: none !important; }
+    .main { padding: 20px; max-width: 100%; }
+    .shell { display: block; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .mobile-header { display: flex; }
+    .mobile-nav-overlay { display: block; }
+    .shell { flex-direction: column; }
+    .main { padding: 24px 16px; max-width: 100%; }
+    .page-header h1 { font-size: 24px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .suburb-grid { grid-template-columns: 1fr 1fr; }
+    .bar-label { width: 110px; min-width: 110px; font-size: 10.5px; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .suburb-grid { grid-template-columns: 1fr; }
+    .stat-card .value { font-size: 18px; }
+    .main { padding: 16px 12px; }
+    .bar-label { display: none; }
+    .page-header h1 { font-size: 21px; }
+  }
+
+  /* Scroll animations */
+  .section { opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+  .section.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header" id="mobileHeader">
+  <div>
+    <div class="mobile-logo">7655</div>
+    <div class="mobile-title">Wellington Property Intelligence</div>
+  </div>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav-overlay" id="navOverlay"></div>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav-drawer" id="navDrawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
+  <div style="padding:24px 20px 16px;">
+    <div class="logo-postcode">7655</div>
+    <div class="logo-town">Wellington · W. Cape</div>
+    <div class="logo-date">May 2026</div>
+  </div>
+  <div class="nav-section-label">Sections</div>
+  <a class="nav-item drawer-nav" href="#location"><span class="nav-num">01</span>Location Identity</a>
+  <a class="nav-item drawer-nav" href="#planning"><span class="nav-num">02</span>SDF &amp; Planning</a>
+  <a class="nav-item drawer-nav" href="#environment"><span class="nav-num">03</span>Environment &amp; Risk</a>
+  <a class="nav-item drawer-nav" href="#services"><span class="nav-num">04</span>Bulk Services</a>
+  <a class="nav-item drawer-nav" href="#devcontrib"><span class="nav-num">05</span>Dev Contributions</a>
+  <a class="nav-item drawer-nav" href="#market"><span class="nav-num">06</span>Property Market</a>
+  <a class="nav-item drawer-nav" href="#suburbs"><span class="nav-num">07</span>Suburb Breakdown</a>
+  <a class="nav-item drawer-nav" href="#comparables"><span class="nav-num">08</span>Comparables</a>
+  <a class="nav-item drawer-nav" href="#demographics"><span class="nav-num">09</span>Demographics</a>
+  <a class="nav-item drawer-nav" href="#economic"><span class="nav-num">10</span>Economic Drivers</a>
+  <a class="nav-item drawer-nav" href="#feasibility"><span class="nav-num">11</span>Feasibility</a>
+  <a class="nav-item drawer-nav" href="#approvals"><span class="nav-num">12</span>Approvals</a>
+  <a class="nav-item drawer-nav" href="#intelligence"><span class="nav-num">13</span>Local Intelligence</a>
+  <div style="padding:16px 20px 0; border-top:1px solid var(--border); margin-top:12px;">
+    <div class="nav-legend-title">Legend</div>
+    <div class="legend-item"><span class="badge confirmed">Confirmed</span> Verified source</div>
+    <div class="legend-item"><span class="badge estimated">Estimated</span> Market benchmark</div>
+    <div class="legend-item"><span class="badge verify">Verify</span> Needs site check</div>
+    <div class="legend-item"><span class="badge policy">Policy</span> Statutory value</div>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- DESKTOP SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-postcode">7655</div>
+    <div class="logo-town">Wellington · Newton · Hillcrest</div>
+    <div class="logo-date">Western Cape · May 2026</div>
+  </div>
+
+  <div class="nav-section-label">Sections</div>
+  <a class="nav-item active" href="#location"><span class="nav-num">01</span>Location Identity</a>
+  <a class="nav-item" href="#planning"><span class="nav-num">02</span>SDF &amp; Planning</a>
+  <a class="nav-item" href="#environment"><span class="nav-num">03</span>Environment &amp; Risk</a>
+  <a class="nav-item" href="#services"><span class="nav-num">04</span>Bulk Services</a>
+  <a class="nav-item" href="#devcontrib"><span class="nav-num">05</span>Dev Contributions</a>
+  <a class="nav-item" href="#market"><span class="nav-num">06</span>Property Market</a>
+  <a class="nav-item" href="#suburbs"><span class="nav-num">07</span>Suburb Breakdown</a>
+  <a class="nav-item" href="#comparables"><span class="nav-num">08</span>Comparables</a>
+  <a class="nav-item" href="#demographics"><span class="nav-num">09</span>Demographics</a>
+  <a class="nav-item" href="#economic"><span class="nav-num">10</span>Economic Drivers</a>
+  <a class="nav-item" href="#feasibility"><span class="nav-num">11</span>Feasibility</a>
+  <a class="nav-item" href="#approvals"><span class="nav-num">12</span>Approvals</a>
+  <a class="nav-item" href="#intelligence"><span class="nav-num">13</span>Local Intelligence</a>
+
+  <div class="nav-legend">
+    <div class="nav-legend-title">Data Confidence</div>
+    <div class="legend-item"><span class="badge confirmed">Confirmed</span> Verified</div>
+    <div class="legend-item"><span class="badge estimated">Estimated</span> Benchmark</div>
+    <div class="legend-item"><span class="badge verify">Verify</span> Site-specific</div>
+    <div class="legend-item"><span class="badge policy">Policy</span> Statutory</div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-eyebrow">Property Intelligence Report</div>
+    <h1>Wellington 7655</h1>
+    <div class="meta">Newton · Hillcrest · Bellview · Drakenstein Local Municipality · Cape Winelands District · Western Cape</div>
+    <div class="meta-pills">
+      <span class="meta-pill">Data: May 2026</span>
+      <span class="meta-pill">198 Data Points</span>
+      <span class="meta-pill">CCH · Drakenstein · SARB · StatsSA · SARS · Lightstone</span>
+    </div>
+  </div>
+
+  <!-- KEY STATS -->
+  <div class="stat-grid">
+    <div class="stat-card accent">
+      <div class="label">Avg House Price 2024</div>
+      <div class="value">R1.90M</div>
+      <div class="sub">+21.4% YoY · 222 sales</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="label">Avg Sectional Title</div>
+      <div class="value">R895K</div>
+      <div class="sub">+309% volume · 45 units</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Vacant Land</div>
+      <div class="value">R865K</div>
+      <div class="sub">68 plots · +152% volume</div>
+    </div>
+    <div class="stat-card green">
+      <div class="label">Total 2024 Sales</div>
+      <div class="value">335</div>
+      <div class="sub">+20.5% · R520.1M value</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Prime Lending Rate</div>
+      <div class="value">10.25%</div>
+      <div class="sub">Repo 6.75% · held Mar 2026</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="label">Electricity Tariff ↑</div>
+      <div class="value">10.32%</div>
+      <div class="sub">Drakenstein 2025/26</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 1: LOCATION IDENTITY ══ -->
+  <div class="section" id="location">
+    <div class="section-header">
+      <div class="section-title">1 · Location Identity</div>
+      <div class="section-desc">Rows 1–13 · Administrative identity, municipal context, geographic benchmarks</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">1</td><td class="field">Postal code</td><td class="val">7655</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SA Post Office</td></tr>
+          <tr><td class="row-num">2</td><td class="field">Town / suburb</td><td class="val">Wellington (Newton, Hillcrest, Bellview)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SA Post Office / Lightstone</td></tr>
+          <tr><td class="row-num">3</td><td class="field">Local municipality</td><td class="val">Drakenstein Local Municipality</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CoGTA</td></tr>
+          <tr><td class="row-num">4</td><td class="field">District municipality</td><td class="val">Cape Winelands District Municipality (DC2)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CoGTA / COGTA</td></tr>
+          <tr><td class="row-num">5</td><td class="field">Province</td><td class="val">Western Cape</td><td class="src-col"><span class="badge confirmed">Confirmed</span></td></tr>
+          <tr><td class="row-num">6</td><td class="field">GPS coordinates</td><td class="val">33°38′S 19°02′E (Wellington town centre)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Google Maps API</td></tr>
+          <tr><td class="row-num">7</td><td class="field">Cadastral erf count</td><td class="val">~10,564 properties in postcode area</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CMAinfo / Deeds</td></tr>
+          <tr><td class="row-num">8</td><td class="field">Urban / rural classification</td><td class="val">Urban (Formal town)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> StatsSA / Drakenstein IDP</td></tr>
+          <tr><td class="row-num">9</td><td class="field">Distance to Cape Town CBD</td><td class="val highlight">~75 km via N1 · approx. 55 min drive</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Google Maps API</td></tr>
+          <tr><td class="row-num">10</td><td class="field">Distance to Paarl</td><td class="val highlight">~15 km</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Google Maps API</td></tr>
+          <tr><td class="row-num">11</td><td class="field">Neighbouring postcodes</td><td class="val">7654 (Wellington core), 7680 (Paarl), 7646 (Groot Drakenstein / Paarl East)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SA Post Office</td></tr>
+          <tr><td class="row-num">12</td><td class="field">IDP vision / strategy</td><td class="val">"City of Excellence" — Drakenstein IDP 2025/26 (R4.4 billion budget)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein IDP / Paarl Post</td></tr>
+          <tr><td class="row-num">13</td><td class="field">BEPP / USDG priority area</td><td class="val">Not a formal USDG metro; Informal Settlements Upgrading Partnership Grant: R12.7M allocated 2025/26 for Lover's Lane &amp; informal settlements</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget 2025/26</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: SDF & PLANNING ══ -->
+  <div class="section" id="planning">
+    <div class="section-header">
+      <div class="section-title">2 · SDF &amp; Planning Policy</div>
+      <div class="section-desc">Rows 14–33 · Zoning, urban policy, SPLUMA framework</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">14</td><td class="field">Current SDF version</td><td class="val">Drakenstein SDF 2022–2027 (amendment cycle 2025/26 underway)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Municipality</td></tr>
+          <tr><td class="row-num">15</td><td class="field">PSDF alignment</td><td class="val">PSDF 2020 (Chapter 4 amended); new PSDF in compilation 2024 — WCG Gazette 8935 (2024)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> WCG Gazette 8935</td></tr>
+          <tr><td class="row-num">16</td><td class="field">Local / precinct plan</td><td class="val">Wellington Precinct Plan — confirm adoption status with Drakenstein Planning Dept</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Planning Dept</td></tr>
+          <tr><td class="row-num">17</td><td class="field">Applicable zoning scheme</td><td class="val">Drakenstein Land Use Planning By-law (LUPB) — SPLUMA-aligned</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Municipality</td></tr>
+          <tr><td class="row-num">18</td><td class="field">Current zoning (erf-specific)</td><td class="val">Residential / Business / Agricultural / Industrial — erf-specific; confirm on Drakenstein GIS Portal</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein GIS Portal</td></tr>
+          <tr><td class="row-num">19</td><td class="field">Permitted uses (by right)</td><td class="val">Per zone: single / duplex residential (Res I–II); retail, mixed-use, office (Business); confirm via LUPB zoning map</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Zoning Maps</td></tr>
+          <tr><td class="row-num">20</td><td class="field">Floor Area Ratio (FAR)</td><td class="val">0.5 – 1.5 (residential, zone-dependent per Drakenstein LUPB)</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">21</td><td class="field">Building line setbacks</td><td class="val">Front: 4.5–7 m · Side: 2 m typical · Rear: 2–3 m typical</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">22</td><td class="field">Maximum building height</td><td class="val">2–4 storeys typical residential (zone-dependent)</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">23</td><td class="field">Maximum site coverage</td><td class="val">60% typical residential (zone-dependent)</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">24</td><td class="field">Min erf size (subdivision)</td><td class="val">750–1,000 m² (zone-dependent per LUPB)</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">25</td><td class="field">Parking requirements</td><td class="val">1.5–2 bays per residential unit (LUPB); confirm for mixed-use / commercial</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">26</td><td class="field">Rezoning feasibility</td><td class="val">Residential → mixed-use: check SDF densification nodes; Wellington CBD flagged for densification</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein SDF</td></tr>
+          <tr><td class="row-num">27</td><td class="field">Urban edge</td><td class="val">Wellington within urban edge per SDF map; Newton / Hillcrest / Bellview generally within edge</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein SDF Map</td></tr>
+          <tr><td class="row-num">28</td><td class="field">Densification designation</td><td class="val">Wellington CBD &amp; surrounds flagged for densification / infill in SDF 2022–2027</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein SDF 2022–2027</td></tr>
+          <tr><td class="row-num">29</td><td class="field">Inclusionary housing</td><td class="val">WC Inclusionary Housing Policy Framework (2022) applies — minimum % affordable units required; confirm threshold with planning dept</td><td class="src-col"><span class="badge policy">Policy</span> WCG Spatial Planning</td></tr>
+          <tr><td class="row-num">30</td><td class="field">SPLUMA compliance</td><td class="val">SPLUMA 16 of 2013 governs all approvals; Drakenstein Municipal Planning Tribunal (MPT) established</td><td class="src-col"><span class="badge policy">Policy</span> National Legislation</td></tr>
+          <tr><td class="row-num">31</td><td class="field">Departure / consent use</td><td class="val">Via Drakenstein MPT — 6–18 months typical</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Planning Dept</td></tr>
+          <tr><td class="row-num">32</td><td class="field">Subdivision / consolidation</td><td class="val">Subject to LUPB and SDF guidance; DALRRD consent required if agricultural zoned</td><td class="src-col"><span class="badge policy">Policy</span> Drakenstein LUPB</td></tr>
+          <tr><td class="row-num">33</td><td class="field">SDZ / Overlay zone</td><td class="val">Check if erf falls in Special Development Zone or Heritage overlay — confirm with Drakenstein SDF / WCG</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein SDF / WCG</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: ENVIRONMENT & RISK ══ -->
+  <div class="section" id="environment">
+    <div class="section-header">
+      <div class="section-title">3 · Environmental, Heritage &amp; Risk</div>
+      <div class="section-desc">Rows 34–56 · Flooding, biodiversity, heritage, geotechnical, climate</div>
+    </div>
+    <div class="warn-box">
+      <div class="box-label">⚠ Key Risk Factors for Postcode 7655</div>
+      High flood risk along Berg River corridor · Berg River ESA belt surrounds Wellington · High-value agricultural / vineyard land adjacent · Victorian / colonial heritage stock in Wellington CBD · Alluvial soils near Berg River; potential expansive clay
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">34</td><td class="field">Flood risk zone (100-yr)</td><td class="val red">HIGH RISK along Berg River corridor — erf-specific flood line check required</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein SDF / SANBI</td></tr>
+          <tr><td class="row-num">35</td><td class="field">Municipal flood line</td><td class="val">Erf-specific; confirm registered flood line with Drakenstein Engineering Dept</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Engineering Dept</td></tr>
+          <tr><td class="row-num">36</td><td class="field">Watercourse / wetland 32m buffer</td><td class="val red">Check cadastral boundary vs Berg River — EIA triggered if within 32m (DFFE EIA Regs 2014)</td><td class="src-col"><span class="badge verify">Verify</span> DFFE EIA Regs 2014</td></tr>
+          <tr><td class="row-num">37</td><td class="field">Critical Biodiversity Area (CBA)</td><td class="val">Check WC Biodiversity Spatial Plan 2023 — likely ESA not CBA for most urban erven</td><td class="src-col"><span class="badge verify">Verify</span> CapeNature / SANBI</td></tr>
+          <tr><td class="row-num">38</td><td class="field">Ecological Support Area (ESA)</td><td class="val amber">Berg River ESA belt surrounds Wellington — confirm erf-specific boundary</td><td class="src-col"><span class="badge estimated">Estimated</span> WC Biodiversity Plan 2023</td></tr>
+          <tr><td class="row-num">39</td><td class="field">Invasive alien species</td><td class="val">Check for pines, eucalyptus, wattle on erf — clearance obligations apply</td><td class="src-col"><span class="badge verify">Verify</span> WC DEADP / SANBI</td></tr>
+          <tr><td class="row-num">40</td><td class="field">Agricultural land classification</td><td class="val amber">High-value vineyard / agricultural land surrounds Wellington; urban erven typically reclassified</td><td class="src-col"><span class="badge estimated">Estimated</span> DALRRD / LUPO</td></tr>
+          <tr><td class="row-num">41</td><td class="field">Subdivision of agricultural land</td><td class="val">DALRRD consent required for agricultural-zoned land</td><td class="src-col"><span class="badge policy">Policy</span> DALRRD</td></tr>
+          <tr><td class="row-num">42–44</td><td class="field">Heritage overlay / HIA</td><td class="val amber">Wellington has significant Victorian / colonial heritage stock; HIA likely required for older CBD / Newton sites — 3–6 months HWC review</td><td class="src-col"><span class="badge verify">Verify</span> Heritage Western Cape</td></tr>
+          <tr><td class="row-num">45</td><td class="field">Soil / geotechnical risk</td><td class="val amber">Alluvial soils near Berg River; potential expansive clay — site-specific geotech report required</td><td class="src-col"><span class="badge verify">Verify</span> Geotech Report</td></tr>
+          <tr><td class="row-num">46</td><td class="field">Water table depth</td><td class="val">Variable near Berg River; specialist hydro/geotech survey required</td><td class="src-col"><span class="badge verify">Verify</span> Geotech / Hydro Survey</td></tr>
+          <tr><td class="row-num">47</td><td class="field">Dolomite / sinkhole risk</td><td class="val green">LOW RISK for Wellington area — confirm CSIR / CGS records</td><td class="src-col"><span class="badge estimated">Estimated</span> CSIR / CGS</td></tr>
+          <tr><td class="row-num">48</td><td class="field">Contaminated land register</td><td class="val">Check DEA&amp;DP and LUPO contaminated sites list (especially near industrial node)</td><td class="src-col"><span class="badge verify">Verify</span> DEA&amp;DP</td></tr>
+          <tr><td class="row-num">49</td><td class="field">Wildfire risk</td><td class="val amber">MODERATE — Hawequa / Wemmershoek mountains nearby; check Working on Fire WCG maps</td><td class="src-col"><span class="badge estimated">Estimated</span> Working on Fire / WCG</td></tr>
+          <tr><td class="row-num">50</td><td class="field">Seismic risk (SANS 10160)</td><td class="val">LOW-MODERATE — Western Cape; confirm seismic zone classification</td><td class="src-col"><span class="badge estimated">Estimated</span> SABS / SANS 10160</td></tr>
+          <tr><td class="row-num">51</td><td class="field">Wind exposure zone</td><td class="val">Check SANS 10160 wind zone map for postcode — affects cladding and roof specification</td><td class="src-col"><span class="badge verify">Verify</span> SABS / SANS 10160</td></tr>
+          <tr><td class="row-num">52</td><td class="field">Coastal management zone</td><td class="val green">NOT APPLICABLE — Wellington is inland; &gt;100km from coast</td><td class="src-col"><span class="badge confirmed">Confirmed</span></td></tr>
+          <tr><td class="row-num">53</td><td class="field">Air quality designation</td><td class="val">Generally good; industrial zones near Wellington may affect some erven — check DFFE AQM</td><td class="src-col"><span class="badge estimated">Estimated</span> DFFE AQM</td></tr>
+          <tr><td class="row-num">54</td><td class="field">EIA trigger assessment</td><td class="val red">&gt;50 units OR within 32m of watercourse triggers EIA Basic Assessment; Full Scoping if significant impact — 6–24 months</td><td class="src-col"><span class="badge policy">Policy</span> DFFE EIA Regs 2014</td></tr>
+          <tr><td class="row-num">55</td><td class="field">Strategic Environmental Assessment</td><td class="val">Check WCG / Drakenstein for active SEAs overlapping postcode</td><td class="src-col"><span class="badge verify">Verify</span> WCG DEADP</td></tr>
+          <tr><td class="row-num">56</td><td class="field">Stormwater / SUDS</td><td class="val">Must align with Drakenstein Water Services Master Plan; SUDS principles required</td><td class="src-col"><span class="badge policy">Policy</span> Drakenstein Engineering Dept</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: BULK SERVICES ══ -->
+  <div class="section" id="services">
+    <div class="section-header">
+      <div class="section-title">4 · Bulk Services &amp; Infrastructure</div>
+      <div class="section-desc">Rows 57–78 · Water, sanitation, electricity, roads, digital, capex</div>
+    </div>
+    <div class="info-box">
+      <div class="box-label">✓ Drakenstein 2025/26 Budget Highlights — Confirmed May 2025</div>
+      R4.4 billion total budget (largest ever) · R3.7bn operating · R714m capital · R465m water &amp; sanitation · R51.7m roads &amp; stormwater · Wellington WWTW rehab R3.9m · Paarl WWTW upgrade R426m · 76.82% of capex funded by external grants
+    </div>
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="stat-card">
+        <div class="label">Water Tariff Increase 2025/26</div>
+        <div class="value" style="color:var(--amber)">+7.7%</div>
+        <div class="sub">Drakenstein (Voëlvlei Dam via CoCT — 20.6% surcharge passed on)</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Sanitation Tariff 2025/26</div>
+        <div class="value" style="color:var(--green)">+5.9%</div>
+        <div class="sub">Refuse removal &amp; sanitation combined</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Electricity Tariff 2025/26</div>
+        <div class="value" style="color:var(--red)">+10.32%</div>
+        <div class="sub">Drakenstein municipal supply (Eskom feed); NERSA-approved</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Property Rates Cap 2025/26</div>
+        <div class="value" style="color:var(--amber)">12.5%</div>
+        <div class="sub">Residential cap — 42,635 property owners protected</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">57</td><td class="field">Bulk water authority</td><td class="val">Drakenstein Municipality (Voëlvlei Dam via City of Cape Town agreement)</td><td class="src-col"><span class="badge confirmed">Confirmed</span></td></tr>
+          <tr><td class="row-num">58</td><td class="field">Water tariff 2025/26</td><td class="val highlight">7.7% increase</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Paarl Post / Drakenstein Budget</td></tr>
+          <tr><td class="row-num">59</td><td class="field">Bulk water capacity</td><td class="val">Confirm with Drakenstein Engineering — R19.5M allocated for water network replacement 2025/26</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Engineering</td></tr>
+          <tr><td class="row-num">60</td><td class="field">Water supply reliability</td><td class="val amber">WC drought cycle risk; 2025/26 levels normalised — monitor DWS / Drakenstein water status</td><td class="src-col"><span class="badge estimated">Estimated</span> DWS / Drakenstein</td></tr>
+          <tr><td class="row-num">61</td><td class="field">Bulk sewer capacity</td><td class="val">Confirm at Drakenstein Engineering — R5.1M for sewage network replacement 2025/26</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Engineering</td></tr>
+          <tr><td class="row-num">62</td><td class="field">Sanitation tariff 2025/26</td><td class="val green">5.9% increase (refuse + sanitation)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget 2025/26</td></tr>
+          <tr><td class="row-num">63</td><td class="field">WWTW capacity</td><td class="val highlight">Wellington WWTW: R3.9M rehab 2025/26 · Paarl WWTW: R426M upgrade</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">64</td><td class="field">Southern Paarl Bulk Sewer</td><td class="val">Simondium Bulk Services: R20M allocated 2025/26; housing development funded with R30.7M national grant</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">65</td><td class="field">Electricity distributor</td><td class="val">Drakenstein Municipality (Eskom bulk supply)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Electro-Tech</td></tr>
+          <tr><td class="row-num">66</td><td class="field">Electricity tariff 2025/26</td><td class="val red">10.32% increase — municipal distributor; NERSA-approved</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">67</td><td class="field">kVA capacity (substation)</td><td class="val">Confirm available kVA with Drakenstein Electro-Tech for proposed development load</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Electro-Tech</td></tr>
+          <tr><td class="row-num">68</td><td class="field">Load-shedding history</td><td class="val green">Stage 0 from early 2024 — Eskom grid stabilised; monitor NERSA / EskomSePush for recurrence risk</td><td class="src-col"><span class="badge estimated">Estimated</span> NERSA / EskomSePush</td></tr>
+          <tr><td class="row-num">69</td><td class="field">Road access / classification</td><td class="val">Wellington on R44; N1 interchange proximate · R44 = provincial road; local streets municipal</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SANRAL / Drakenstein</td></tr>
+          <tr><td class="row-num">70</td><td class="field">Road widening / servitude</td><td class="val">Check SANRAL / SDF road reserve maps — erf-specific; R17.8M for municipal road resealing 2025/26</td><td class="src-col"><span class="badge verify">Verify</span> SANRAL / Drakenstein SDF</td></tr>
+          <tr><td class="row-num">71</td><td class="field">Public transport</td><td class="val highlight">Wellington train station — Cape Town MetroRail (Bellville–Wellington line); taxi routes to Paarl and Cape Town</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Metrorail WC</td></tr>
+          <tr><td class="row-num">72</td><td class="field">SANRAL N1 toll / access</td><td class="val">Wellington N1 interchange provides direct freeway access (Cape Town–Bain's Kloof); no toll on this N1 section</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SANRAL</td></tr>
+          <tr><td class="row-num">73</td><td class="field">Fibre / broadband</td><td class="val">Partial FTTP coverage — check Openserve and Vumatel coverage maps for specific erf</td><td class="src-col"><span class="badge verify">Verify</span> Openserve / Vumatel</td></tr>
+          <tr><td class="row-num">74</td><td class="field">Refuse removal</td><td class="val green">Yes — municipal weekly collection</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein</td></tr>
+          <tr><td class="row-num">75</td><td class="field">Total LM capital budget 2025/26</td><td class="val highlight">R714 million (record; 76.82% from external grants)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">76</td><td class="field">Roads &amp; stormwater 2025/26</td><td class="val">R51.7M + R21M Drommedaris Road rebuild + R17.8M resealing + R1.7M Lady Grey St upgrade</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">77</td><td class="field">Water &amp; sanitation 2025/26</td><td class="val highlight">R465M total (Paarl WWTW R426M · Wellington WWTW R3.9M · Simondium R20M · networks R24.6M)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">78</td><td class="field">Grant pipeline (BFI / MIG)</td><td class="val">Human Settlements Dev Grant R30.7M · Neighbourhood Dev Partnership Grant R29.5M · EPWP Grant R3.3M · Informal Settlements Upgrading Grant R12.7M</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: DEV CONTRIBUTIONS ══ -->
+  <div class="section" id="devcontrib">
+    <div class="section-header">
+      <div class="section-title">5 · Development Contributions &amp; Costs</div>
+      <div class="section-desc">Rows 79–95 · Connection DCs, professional fees, taxation</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">79</td><td class="field">Water connection DC / unit</td><td class="val">As per Drakenstein Tariff Book 2025/26 (unit-size dependent)</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Tariff Book</td></tr>
+          <tr><td class="row-num">80</td><td class="field">Sewer connection DC / unit</td><td class="val">As per Drakenstein Tariff Book 2025/26</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Tariff Book</td></tr>
+          <tr><td class="row-num">81</td><td class="field">Electricity connection DC</td><td class="val">kVA-based — from Drakenstein Tariff Book 2025/26</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Tariff Book</td></tr>
+          <tr><td class="row-num">82</td><td class="field">Roads / stormwater DC</td><td class="val">Per Drakenstein DC Policy — obtain from Drakenstein Engineering Dept</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Engineering</td></tr>
+          <tr><td class="row-num">83</td><td class="field">Plan approval fees</td><td class="val">Based on development value; 30–90 day approval target</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Building Dept</td></tr>
+          <tr><td class="row-num">84</td><td class="field">Rezoning / departure fee</td><td class="val">Municipality fee schedule — 6–18 months via MPT</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Planning Dept</td></tr>
+          <tr><td class="row-num">85</td><td class="field">SDP application fee</td><td class="val">Municipality fee schedule — contact Drakenstein Planning Dept</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Planning Dept</td></tr>
+          <tr><td class="row-num">86</td><td class="field">NHBRC enrolment fee</td><td class="val">1.3% / 1.0% / 0.75% / 0.5% by price bracket; maximum R34,000 per unit</td><td class="src-col"><span class="badge policy">Policy</span> NHBRC Website</td></tr>
+          <tr><td class="row-num">87</td><td class="field">Sectional title registration</td><td class="val">Per Deeds Office schedule — obtain from conveyancing attorney</td><td class="src-col"><span class="badge policy">Policy</span> Deeds Office</td></tr>
+          <tr><td class="row-num">88</td><td class="field">Transfer duty (buyer)</td><td class="val">0% below R1.1M; sliding scale above (SARS 2025 tables) — NOT applicable to new VAT developments</td><td class="src-col"><span class="badge policy">Policy</span> SARS 2025</td></tr>
+          <tr><td class="row-num">89</td><td class="field">VAT on development sales</td><td class="val highlight">15% VAT (developer VAT-registered mandatory &gt;R1M revenue threshold)</td><td class="src-col"><span class="badge policy">Policy</span> SARS</td></tr>
+          <tr><td class="row-num">90</td><td class="field">Bond registration cost</td><td class="val">~1.2–1.5% of bond value (buyer's cost)</td><td class="src-col"><span class="badge estimated">Estimated</span> Law Society / BetterBond</td></tr>
+          <tr><td class="row-num">91</td><td class="field">Conveyancing / transfer fees</td><td class="val">Law Society tariff tables — calculate per transaction value</td><td class="src-col"><span class="badge policy">Policy</span> Law Society Tariff</td></tr>
+          <tr><td class="row-num">92</td><td class="field">Section 13 tax allowance</td><td class="val">5% per annum on construction cost (SARS S13 / S13ter depreciation)</td><td class="src-col"><span class="badge policy">Policy</span> SARS Income Tax Act</td></tr>
+          <tr><td class="row-num">93</td><td class="field">CGT inclusion rate (company)</td><td class="val">66.6% inclusion; 27% CIT = effective 18% CGT rate on disposal</td><td class="src-col"><span class="badge policy">Policy</span> SARS</td></tr>
+          <tr><td class="row-num">94</td><td class="field">Corporate income tax rate</td><td class="val highlight">27% (effective from 2023/24 onwards)</td><td class="src-col"><span class="badge policy">Policy</span> SARS</td></tr>
+          <tr><td class="row-num">95</td><td class="field">Dividend withholding tax</td><td class="val">20% (on dividends from SPV / property company)</td><td class="src-col"><span class="badge policy">Policy</span> SARS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: PROPERTY MARKET ══ -->
+  <div class="section" id="market">
+    <div class="section-header">
+      <div class="section-title">6 · Property Market Data (2024 Deeds)</div>
+      <div class="section-desc">Rows 96–121 · Sales, pricing, rentals, trends, supply — Wellington postcode area</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">2024 vs 2023 — Wellington Sales Volume &amp; Value</div>
+      <div class="bar-row"><span class="bar-label">Total sales (2024)</span><div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-val">335</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Total sales (2023)</span><div class="bar-track"><div class="bar-fill" style="width:83%;background:var(--text-muted)"><span class="bar-val">278</span></div></div></div>
+      <div class="bar-row" style="margin-top:12px"><span class="bar-label">Total value (2024)</span><div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-val">R520.1M</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Total value (2023)</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--text-muted)"><span class="bar-val">R440.2M</span></div></div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">96</td><td class="field">Total registered sales 2024</td><td class="val highlight">335 sales (+20.5% from 278 in 2023)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH / Deeds Office 2024</td></tr>
+          <tr><td class="row-num">97</td><td class="field">Total market value 2024</td><td class="val highlight">R520.1 million (+18.2% from R440.2M in 2023)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH / Deeds Office 2024</td></tr>
+          <tr><td class="row-num">98</td><td class="field">Avg own-title house price 2024</td><td class="val highlight">R1,896,425 (+21.4% from R1,562,708 in 2023) · 222 sales</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH / Deeds Office 2024</td></tr>
+          <tr><td class="row-num">99</td><td class="field">Avg sectional title price 2024</td><td class="val highlight">R894,889 · 45 units sold (was 11 in 2023 at avg R3,070,347)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH / Deeds Office 2024</td></tr>
+          <tr><td class="row-num">100</td><td class="field">Avg vacant land price 2024</td><td class="val highlight">R865,383 · 68 plots sold (+151.9% volume; avg down 25.2% — shift to affordable plots)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH / Deeds Office 2024</td></tr>
+          <tr><td class="row-num">101</td><td class="field">Highest sale price 2024</td><td class="val">R10,500,000 — Diemersfontein Village, 1,700 m² erf</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH 2024</td></tr>
+          <tr><td class="row-num">102</td><td class="field">Lowest sale price 2024</td><td class="val">R18,592 — 41 Impala Road, Van Wyks Vlei, 334 m² erf</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH 2024</td></tr>
+          <tr><td class="row-num">103</td><td class="field">Avg price per m² (by type)</td><td class="val">R35,000–R50,000/m² comparable residential (Lightstone / Property24 estimate)</td><td class="src-col"><span class="badge estimated">Estimated</span> Lightstone / Property24</td></tr>
+          <tr><td class="row-num">105</td><td class="field">Premium estate prices</td><td class="val">Diemersfontein Village avg R4,798,750 (4 sales, 2024) · total R19.195M</td><td class="src-col"><span class="badge confirmed">Confirmed</span> CCH 2024</td></tr>
+          <tr><td class="row-num">106</td><td class="field">Avg monthly rental (by type)</td><td class="val">R6,500–R12,000/month (Wellington residential — Private Property / TPN benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> Private Property / TPN</td></tr>
+          <tr><td class="row-num">107</td><td class="field">Rental yield (gross)</td><td class="val">8–11% short-term (STR); 7–9% long-term residential</td><td class="src-col"><span class="badge estimated">Estimated</span> FNB / Lightstone</td></tr>
+          <tr><td class="row-num">108</td><td class="field">Rental escalation norm</td><td class="val">~8–10% p.a. (CPI+ · Western Cape norm — TPN / FNB)</td><td class="src-col"><span class="badge estimated">Estimated</span> TPN / FNB</td></tr>
+          <tr><td class="row-num">109</td><td class="field">Vacancy rate (residential)</td><td class="val">Check TPN Vacancy Survey — Western Cape; typically below national average</td><td class="src-col"><span class="badge verify">Verify</span> TPN Credit Bureau</td></tr>
+          <tr><td class="row-num">110</td><td class="field">Short-term rental (AirBnB / STR)</td><td class="val">Wine route proximity drives weekend demand — check AirDNA / STR for 7655 occupancy &amp; ADR</td><td class="src-col"><span class="badge verify">Verify</span> AirDNA / STR</td></tr>
+          <tr><td class="row-num">111</td><td class="field">Capital growth rate (5-yr avg)</td><td class="val">~8–12% p.a. (Western Cape trend — FNB); Wellington 2024 own-title +21.4% YoY</td><td class="src-col"><span class="badge estimated">Estimated</span> FNB Property Barometer</td></tr>
+          <tr><td class="row-num">112</td><td class="field">Days on market</td><td class="val">~60–90 days (Wellington residential — Property24 / Seeff estimate)</td><td class="src-col"><span class="badge estimated">Estimated</span> Property24 / Seeff</td></tr>
+          <tr><td class="row-num">113</td><td class="field">Buyer profile</td><td class="val">Mix of owner-occupier and investor; first-time buyer activity in Hillcrest / Newtown (affordable segment)</td><td class="src-col"><span class="badge estimated">Estimated</span> FNB Estate Agent Survey</td></tr>
+          <tr><td class="row-num">114</td><td class="field">Bond approval rate (WC)</td><td class="val">~74–78% (FNB Western Cape data)</td><td class="src-col"><span class="badge estimated">Estimated</span> FNB</td></tr>
+          <tr><td class="row-num">115</td><td class="field">Prime lending rate (current)</td><td class="val highlight">10.25% prime · Repo 6.75% (held March 26, 2026 — SARB MPC; second consecutive pause)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SARB MPC March 2026</td></tr>
+          <tr><td class="row-num">116</td><td class="field">Dev loan margin (typical)</td><td class="val">Prime + 2–3% = ~12.25–13.25% (FNB / Nedbank / Investec)</td><td class="src-col"><span class="badge estimated">Estimated</span> Investec / Absa / FNB</td></tr>
+          <tr><td class="row-num">117</td><td class="field">Loan-to-cost (LTC) ratio</td><td class="val">70–87% (lender-dependent; 80% typical for well-structured residential dev)</td><td class="src-col"><span class="badge estimated">Estimated</span> Investec / Absa / FNB</td></tr>
+          <tr><td class="row-num">118</td><td class="field">Listed properties (current)</td><td class="val">~199 residential for sale (CCH Wellington portfolio) — verify on Property24</td><td class="src-col"><span class="badge verify">Verify</span> Property24 / Private Property</td></tr>
+          <tr><td class="row-num">119</td><td class="field">Competing developments pipeline</td><td class="val">Construction of New Cell Wellington: R266M allocated in upcoming MTREF — confirm scope via Drakenstein</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein Draft MTREF</td></tr>
+          <tr><td class="row-num">120</td><td class="field">Retail vacancy rate</td><td class="val">Check IPD / MSCI SA retail data for Cape Winelands — secondary town retail typically 8–12% vacancy</td><td class="src-col"><span class="badge verify">Verify</span> MSCI / IPD</td></tr>
+          <tr><td class="row-num">121</td><td class="field">Commercial property yields</td><td class="val">~8–10% cap rate (secondary WC towns — SAPOA / MSCI benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> SAPOA / MSCI</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: SUBURB BREAKDOWN ══ -->
+  <div class="section" id="suburbs">
+    <div class="section-header">
+      <div class="section-title">7 · Suburb Breakdown — 7655 Focus Suburbs (2024 Deeds)</div>
+      <div class="section-desc">Newton, Hillcrest and Bellview — own-title house prices vs wider Wellington market</div>
+    </div>
+    <div class="info-box">
+      <div class="box-label">◎ 7655 Target Suburbs</div>
+      Newton (Newtown) and Hillcrest are confirmed in the 2024 deeds data. Bellview has no separately recorded deeds transactions in 2024 — likely categorised under adjacent suburbs or had zero qualifying transfers. Confirm via Deeds Office / Lightstone direct search.
+    </div>
+
+    <div class="rank-label">Own-title house avg price 2024 — Wellington suburbs ranked</div>
+    <div class="chart-wrap">
+      <div class="bar-row"><span class="bar-label">Diemersfontein Village</span><div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-val">R4,798,750</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Onverwacht</span><div class="bar-track"><div class="bar-fill" style="width:58%"><span class="bar-val">R2,767,222</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Wellington North</span><div class="bar-track"><div class="bar-fill" style="width:49%"><span class="bar-val">R2,342,152</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Wellington East</span><div class="bar-track"><div class="bar-fill" style="width:47%"><span class="bar-val">R2,268,214</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Berg-En-Dal</span><div class="bar-track"><div class="bar-fill" style="width:46%"><span class="bar-val">R2,227,079</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Wellington West</span><div class="bar-track"><div class="bar-fill" style="width:38%"><span class="bar-val">R1,833,333</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Wellington Central</span><div class="bar-track"><div class="bar-fill" style="width:29%;background:var(--text-muted)"><span class="bar-val">R1,403,071</span></div></div></div>
+      <div class="bar-row"><span class="bar-label" style="font-weight:700;color:var(--accent)">Newtown ★</span><div class="bar-track"><div class="bar-fill" style="width:23%;background:var(--accent)"><span class="bar-val">R1,112,500</span></div></div></div>
+      <div class="bar-row"><span class="bar-label" style="font-weight:700;color:var(--accent)">Hillcrest ★</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--accent)"><span class="bar-val">R739,000</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Newtown-Wes</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--text-muted)"><span class="bar-val">R738,500</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Van Wyks Vlei</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--border-strong)"><span class="bar-val" style="color:var(--text-primary)">R664,505</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Wellington SP1</span><div class="bar-track"><div class="bar-fill" style="width:6%;background:var(--border-strong)"><span class="bar-val" style="color:var(--text-primary)">R307K</span></div></div></div>
+    </div>
+
+    <div class="suburb-grid" style="margin-bottom:20px">
+      <div class="suburb-card focus">
+        <div class="s-name">Newton / Newtown ★</div>
+        <div class="s-price">R1,112,500</div>
+        <div class="s-detail">14 own-title sales · 2024</div>
+        <div class="s-detail">Total: R15,575,000</div>
+      </div>
+      <div class="suburb-card focus">
+        <div class="s-name">Hillcrest ★</div>
+        <div class="s-price">R739,000</div>
+        <div class="s-detail">10 own-title sales · 2024</div>
+        <div class="s-detail">Total: R7,390,000</div>
+      </div>
+      <div class="suburb-card">
+        <div class="s-name">Bellview</div>
+        <div class="s-price" style="font-size:15px;color:var(--text-muted)">No data</div>
+        <div class="s-detail">No separate deeds record 2024</div>
+        <div class="s-detail">Verify via Lightstone / Deeds Office</div>
+      </div>
+    </div>
+
+    <div class="rank-label">Sectional title (apartments) — Wellington 2024</div>
+    <div class="suburb-grid">
+      <div class="suburb-card">
+        <div class="s-name">Wellington Central</div>
+        <div class="s-price">R1,244,063</div>
+        <div class="s-detail">16 ST units · Total R19,905,000</div>
+      </div>
+      <div class="suburb-card">
+        <div class="s-name">Wellington North</div>
+        <div class="s-price">R716,607</div>
+        <div class="s-detail">28 ST units · Total R20,065,000</div>
+      </div>
+      <div class="suburb-card">
+        <div class="s-name">Vlakkeland</div>
+        <div class="s-price">R300,000</div>
+        <div class="s-detail">1 ST unit</div>
+      </div>
+    </div>
+
+    <div class="rank-label" style="margin-top:20px">Vacant land — Wellington 2024</div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Suburb</th><th>Sales</th><th>Total Value</th><th>Avg Price / Plot</th></tr></thead>
+        <tbody>
+          <tr><td class="field">Diemersfontein Village</td><td class="val">1</td><td class="val">R2,350,000</td><td class="val highlight">R2,350,000</td></tr>
+          <tr><td class="field">Wellington East</td><td class="val">1</td><td class="val">R1,380,000</td><td class="val">R1,380,000</td></tr>
+          <tr><td class="field">Wellington North</td><td class="val">8</td><td class="val">R10,800,000</td><td class="val">R1,350,000</td></tr>
+          <tr><td class="field">Wellington Central</td><td class="val">7</td><td class="val">R6,807,000</td><td class="val">R972,429</td></tr>
+          <tr><td class="field">Wellington West</td><td class="val">11</td><td class="val">R8,400,000</td><td class="val">R763,636</td></tr>
+          <tr><td class="field">Berg-En-Dal</td><td class="val">39</td><td class="val">R28,945,550</td><td class="val">R742,194</td></tr>
+          <tr><td class="field">Wellington SP1</td><td class="val">1</td><td class="val">R163,469</td><td class="val">R163,469</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 8: COMPARABLES ══ -->
+  <div class="section" id="comparables">
+    <div class="section-header">
+      <div class="section-title">8 · Comparable Sales &amp; Benchmarks</div>
+      <div class="section-desc">Rows 122–129 · Neighbouring postcodes, construction costs</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">122</td><td class="field">Postcode 7654 (Wellington)</td><td class="val">Pull from Lightstone / Deeds Office — adjacent Wellington postcode comparable</td><td class="src-col"><span class="badge verify">Verify</span> Lightstone / Deeds Office</td></tr>
+          <tr><td class="row-num">123</td><td class="field">Postcode 7680 (Paarl)</td><td class="val">Paarl sectional title market — typically 20–35% premium over Wellington for comparable product</td><td class="src-col"><span class="badge estimated">Estimated</span> Lightstone / Deeds Office</td></tr>
+          <tr><td class="row-num">124</td><td class="field">Postcode 7646 (Groot Drakenstein)</td><td class="val">Wine estate / rural residential comparables — higher premium for lifestyle product</td><td class="src-col"><span class="badge verify">Verify</span> Lightstone / Deeds Office</td></tr>
+          <tr><td class="row-num">125</td><td class="field">Postcode 7647</td><td class="val">Pull from Lightstone / Deeds Office</td><td class="src-col"><span class="badge verify">Verify</span> Lightstone / Deeds Office</td></tr>
+          <tr><td class="row-num">126</td><td class="field">Recent erf-level sales</td><td class="val">Pull last 10 comparable transfers via Lightstone or Deeds Office portal for specific erf type and size</td><td class="src-col"><span class="badge verify">Verify</span> Deeds Office / Lightstone</td></tr>
+          <tr><td class="row-num">127</td><td class="field">Construction cost / m² (WC)</td><td class="val">R12,000–R20,000/m² (standard residential construction cost, Western Cape 2024)</td><td class="src-col"><span class="badge estimated">Estimated</span> ASAQS / QS Benchmarks</td></tr>
+          <tr><td class="row-num">128</td><td class="field">ASAQS build cost (mid-range WC 2025)</td><td class="val highlight">R14,000–R22,000/m² mid-range residential Western Cape 2025 (BER/ASAQS published)</td><td class="src-col"><span class="badge estimated">Estimated</span> ASAQS BER</td></tr>
+          <tr><td class="row-num">129</td><td class="field">Construction cost escalation</td><td class="val">~6–9% p.a. (WC 2024/25 — ASAQS / StatsSA PPI)</td><td class="src-col"><span class="badge estimated">Estimated</span> ASAQS / StatsSA PPI</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 9: DEMOGRAPHICS ══ -->
+  <div class="section" id="demographics">
+    <div class="section-header">
+      <div class="section-title">9 · Demographics &amp; Socioeconomics</div>
+      <div class="section-desc">Rows 130–142 · Population, income, amenities, safety</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">130</td><td class="field">Population (town level)</td><td class="val">~50,000–60,000 (Wellington town) — approximately 10,564 properties in postcode area</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA / Drakenstein IDP</td></tr>
+          <tr><td class="row-num">131</td><td class="field">Household growth rate</td><td class="val">Drakenstein = one of fastest-growing LMs in Western Cape (IDP 2025/26 highlights urbanisation pressure)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein IDP 2025</td></tr>
+          <tr><td class="row-num">132</td><td class="field">Housing backlog</td><td class="val red">Significant; backyard dweller population rising — Drakenstein IDP 2025: "urbanisation and housing challenges are enormous"</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein IDP 2025</td></tr>
+          <tr><td class="row-num">133</td><td class="field">Median household income</td><td class="val">Below Paarl average; mid-to-lower income base in Newton / Hillcrest / Bellview suburbs specifically</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA Census 2022</td></tr>
+          <tr><td class="row-num">134</td><td class="field">Unemployment rate</td><td class="val">~25–30% (Drakenstein area; higher in rural WC — StatsSA QLFS)</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA QLFS</td></tr>
+          <tr><td class="row-num">135</td><td class="field">Primary languages</td><td class="val">Afrikaans (majority), isiXhosa — StatsSA Census 2022</td><td class="src-col"><span class="badge confirmed">Confirmed</span> StatsSA Census 2022</td></tr>
+          <tr><td class="row-num">136</td><td class="field">Piped water access</td><td class="val green">~90%+ (Western Cape provincial norm)</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA 2022</td></tr>
+          <tr><td class="row-num">137</td><td class="field">Electricity access</td><td class="val green">~93%+ (Western Cape provincial norm)</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA 2022</td></tr>
+          <tr><td class="row-num">138</td><td class="field">Formal sanitation access</td><td class="val green">~90% (Western Cape norm)</td><td class="src-col"><span class="badge estimated">Estimated</span> StatsSA 2022</td></tr>
+          <tr><td class="row-num">139</td><td class="field">Schools / higher education</td><td class="val">Several schools &amp; TVET colleges (Wellington College); confirm WCED pipeline</td><td class="src-col"><span class="badge confirmed">Confirmed</span> DHET</td></tr>
+          <tr><td class="row-num">140</td><td class="field">Healthcare facilities</td><td class="val">Wellington Hospital (public); private clinics in Wellington CBD</td><td class="src-col"><span class="badge confirmed">Confirmed</span> WCDOH</td></tr>
+          <tr><td class="row-num">141</td><td class="field">Crime statistics</td><td class="val">Consult SAPS quarterly crime statistics — property crime, burglary, drug-related crime relevant</td><td class="src-col"><span class="badge verify">Verify</span> SAPS Crime Stats</td></tr>
+          <tr><td class="row-num">142</td><td class="field">Neighbourhood watch / security</td><td class="val">Check local neighbourhood watch, ADT / Fidelity coverage for Newton / Hillcrest / Bellview</td><td class="src-col"><span class="badge verify">Verify</span> Local community / Security</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 10: ECONOMIC DRIVERS ══ -->
+  <div class="section" id="economic">
+    <div class="section-header">
+      <div class="section-title">10 · Economic Drivers</div>
+      <div class="section-desc">Rows 143–151 · Employment, tourism, connectivity, industrial</div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">143</td><td class="field">Primary economic sector</td><td class="val">Agriculture (viticulture, deciduous fruit); food processing and agri-processing</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein IDP / StatsSA</td></tr>
+          <tr><td class="row-num">144</td><td class="field">Major employers (top)</td><td class="val">Boland Lyra; agri-processing operations; education sector; retail; wine estates</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein SDBIP</td></tr>
+          <tr><td class="row-num">145</td><td class="field">New business registrations</td><td class="val">Check CIPC / StatsSA business registration data for Wellington / Drakenstein area</td><td class="src-col"><span class="badge verify">Verify</span> CIPC / StatsSA</td></tr>
+          <tr><td class="row-num">146</td><td class="field">Wine estate / tourism draw</td><td class="val">Multiple estates (Diemersfontein, etc.) — tourism driver; wine route through Wellington is significant draw</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein SDF</td></tr>
+          <tr><td class="row-num">147</td><td class="field">Tourism accommodation demand</td><td class="val">Moderate; wine route drives weekend stays — check SA Tourism / AirDNA for occupancy data</td><td class="src-col"><span class="badge estimated">Estimated</span> SA Tourism / AirDNA</td></tr>
+          <tr><td class="row-num">148</td><td class="field">N1 / road access quality</td><td class="val highlight">Wellington N1 interchange provides direct freeway access; N1 Cape Town–Paarl–Bain's Kloof corridor; R44 provincial link</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SANRAL</td></tr>
+          <tr><td class="row-num">149</td><td class="field">Cape Town metro labour linkage</td><td class="val">~75 km to CT CBD / ~55 min N1 commute; MetroRail Wellington–Bellville–Cape Town train line</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Metrorail WC</td></tr>
+          <tr><td class="row-num">150</td><td class="field">Industrial / commercial node</td><td class="val">Wellington has established industrial area (light manufacturing / agri-processing) — confirm extent on Drakenstein SDF map</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein SDF Map</td></tr>
+          <tr><td class="row-num">151</td><td class="field">Commercial property yields</td><td class="val">~8–10% cap rate (secondary WC towns — SAPOA / MSCI benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> SAPOA / MSCI</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 11: FEASIBILITY ══ -->
+  <div class="section" id="feasibility">
+    <div class="section-header">
+      <div class="section-title">11 · Financial &amp; Feasibility Inputs</div>
+      <div class="section-desc">Rows 152–170 · Tax, finance, professional fees, returns</div>
+    </div>
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="chart-wrap">
+        <div class="chart-title">Statutory Tax Rates — SARS 2025/26</div>
+        <div class="tariff-row"><span class="tariff-name">VAT (development sales)</span><span class="tariff-pct mid">15.0%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Corporate income tax (CIT)</span><span class="tariff-pct mid">27.0%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Effective CGT (company)</span><span class="tariff-pct mid">18.0%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Dividend withholding tax</span><span class="tariff-pct mid">20.0%</span></div>
+        <div class="tariff-row"><span class="tariff-name">NHBRC max per unit</span><span class="tariff-pct low">R34,000</span></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Professional Fee Benchmarks</div>
+        <div class="tariff-row"><span class="tariff-name">Architect (SACAP)</span><span class="tariff-pct low">4–6%</span></div>
+        <div class="tariff-row"><span class="tariff-name">QS / Quantity Surveyor (ASAQS)</span><span class="tariff-pct low">2–3%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Project Manager (SACPCMP)</span><span class="tariff-pct low">1.5–2.5%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Total professional team</span><span class="tariff-pct mid">12–18%</span></div>
+        <div class="tariff-row"><span class="tariff-name">Sales commission (PPRA)</span><span class="tariff-pct low">3.5–6%</span></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">152</td><td class="field">VAT rate</td><td class="val highlight">15% (standard rate on development sales)</td><td class="src-col"><span class="badge policy">Policy</span> SARS</td></tr>
+          <tr><td class="row-num">153</td><td class="field">Property rates cap 2025/26</td><td class="val">12.5% (residential cap — 42,635 Drakenstein property owners protected)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">154</td><td class="field">Debt service cover ratio (ICR)</td><td class="val">&gt;1.25x minimum ICR (typical development lender requirement)</td><td class="src-col"><span class="badge estimated">Estimated</span> Investec / FNB</td></tr>
+          <tr><td class="row-num">155</td><td class="field">Capitalised interest</td><td class="val">Based on prime (10.25%) + margin (2–3%) = ~12.25–13.25% on drawn loan during construction; model draw-down curve</td><td class="src-col"><span class="badge confirmed">Confirmed</span> SARB + Lender Terms</td></tr>
+          <tr><td class="row-num">156</td><td class="field">Architect fee</td><td class="val">~4–6% of construction cost (SACAP guideline)</td><td class="src-col"><span class="badge policy">Policy</span> SACAP Guideline</td></tr>
+          <tr><td class="row-num">157</td><td class="field">QS fee</td><td class="val">~2–3% of construction cost (ASAQS guideline)</td><td class="src-col"><span class="badge policy">Policy</span> ASAQS Guideline</td></tr>
+          <tr><td class="row-num">158</td><td class="field">Project manager fee</td><td class="val">~1.5–2.5% of construction cost (SACPCMP guideline)</td><td class="src-col"><span class="badge policy">Policy</span> SACPCMP</td></tr>
+          <tr><td class="row-num">159</td><td class="field">Total professional fees</td><td class="val">~12–18% of construction cost (combined professional team)</td><td class="src-col"><span class="badge estimated">Estimated</span> ASAQS / SACAP</td></tr>
+          <tr><td class="row-num">160</td><td class="field">Sales commission</td><td class="val">3.5–6% (negotiated; PPRA)</td><td class="src-col"><span class="badge policy">Policy</span> PPRA</td></tr>
+          <tr><td class="row-num">161</td><td class="field">Sectional title levy benchmark</td><td class="val">R850–R2,500 per unit per month (complex-dependent — NAMA / Body Corporate)</td><td class="src-col"><span class="badge estimated">Estimated</span> NAMA / Body Corporate</td></tr>
+          <tr><td class="row-num">162</td><td class="field">Land acquisition cost</td><td class="val">R27.75M total (Phase 1+2 sample per investor pack) — confirm current erf pricing against 2024 deeds comparables</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Feasibility Model / Deeds</td></tr>
+          <tr><td class="row-num">163</td><td class="field">Land holding cost</td><td class="val">Calculate from acquisition date to construction start: municipal rates (12.5% cap) + bond interest (10.25%+ p.a.) + insurance</td><td class="src-col"><span class="badge estimated">Estimated</span> Municipality + Lender</td></tr>
+          <tr><td class="row-num">164</td><td class="field">Developer ROI benchmark</td><td class="val">~15–25% ROC (acceptable for residential development, Western Cape — SAPOA / feasibility models)</td><td class="src-col"><span class="badge estimated">Estimated</span> SAPOA / Feasibility Model</td></tr>
+          <tr><td class="row-num">165</td><td class="field">Contingency provision</td><td class="val">2.4% of construction cost (model norm; increase to 5–7.5% for complex heritage or geotechnical sites)</td><td class="src-col"><span class="badge estimated">Estimated</span> Feasibility Model</td></tr>
+          <tr><td class="row-num">166</td><td class="field">STR yield (studio)</td><td class="val">10.31% gross STR yield on all-in cost (investor pack benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> Feasibility Model</td></tr>
+          <tr><td class="row-num">167</td><td class="field">STR yield (2-bedroom)</td><td class="val">9.38% gross STR yield on all-in cost (investor pack benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> Feasibility Model</td></tr>
+          <tr><td class="row-num">168</td><td class="field">Retail net yield on cost</td><td class="val">~8.3% net yield for retail GLA (from feasibility model)</td><td class="src-col"><span class="badge estimated">Estimated</span> Feasibility Model</td></tr>
+          <tr><td class="row-num">169</td><td class="field">Furniture pack cost / unit</td><td class="val">~R125,670 per studio (market supplier benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> Market Suppliers</td></tr>
+          <tr><td class="row-num">170</td><td class="field">Target R/m² selling price</td><td class="val highlight">R38,000–R52,000/m² (Wellington area — based on 2024 market comparables and feasibility model)</td><td class="src-col"><span class="badge estimated">Estimated</span> Feasibility Model / CCH</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 12: APPROVALS ══ -->
+  <div class="section" id="approvals">
+    <div class="section-header">
+      <div class="section-title">12 · Approvals &amp; Timeline</div>
+      <div class="section-desc">Rows 171–178 · Planning approvals, EIA, heritage, capacity benchmarks</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Development Approval Timeline — indicative pre-construction pipeline</div>
+      <div class="bar-row"><span class="bar-label">Building plan approval</span><div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--teal)"><span class="bar-val">30–90 days</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">HIA (if required)</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--amber)"><span class="bar-val">3–6 months</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Rezoning / LUPB</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--coral)"><span class="bar-val">6–18 months</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">EIA (Basic Assessment)</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber)"><span class="bar-val">6–12 months</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">EIA (Full Scoping)</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)"><span class="bar-val">12–24 months</span></div></div></div>
+      <div class="bar-row"><span class="bar-label">Full pipeline estimate</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:var(--purple)"><span class="bar-val">12–24 months total</span></div></div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">171</td><td class="field">Building plan approval turnaround</td><td class="val">30–90 working days (Drakenstein target); benchmark: 136 plans approved in Sept 2023 (value R121.5M)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Building Dept</td></tr>
+          <tr><td class="row-num">172</td><td class="field">Land use / rezoning timeline</td><td class="val">6–18 months (Drakenstein LUPB process via Municipal Planning Tribunal)</td><td class="src-col"><span class="badge estimated">Estimated</span> Drakenstein Planning Dept</td></tr>
+          <tr><td class="row-num">173</td><td class="field">EIA process timeline</td><td class="val">Basic Assessment: 6–12 months · Full Scoping EIA: 12–24 months (DFFE EIA Regs 2014)</td><td class="src-col"><span class="badge policy">Policy</span> DFFE</td></tr>
+          <tr><td class="row-num">174</td><td class="field">Heritage Impact Assessment</td><td class="val">3–6 months (Heritage Western Cape review process) — likely required for older Wellington CBD / Newton sites</td><td class="src-col"><span class="badge estimated">Estimated</span> Heritage Western Cape</td></tr>
+          <tr><td class="row-num">175</td><td class="field">Full development approval pipeline</td><td class="val">12–24 months total pre-construction approval period (industry benchmark)</td><td class="src-col"><span class="badge estimated">Estimated</span> Industry Benchmark</td></tr>
+          <tr><td class="row-num">176</td><td class="field">IDP / SDF review cycle</td><td class="val">Annual public participation — April–May review period (Drakenstein); 2025/26 budget approved May 28, 2025</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein</td></tr>
+          <tr><td class="row-num">177</td><td class="field">EPWP job creation obligation</td><td class="val">461 job opportunities planned 2025/26 (EPWP Grant R3.3M + municipal contribution R18.3M)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">178</td><td class="field">Municipal building plan capacity</td><td class="val">136 approvals in one month (Sept 2023) at R121.5M total value — indicates reasonable throughput</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Engineering News 2023</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 13: LOCAL INTELLIGENCE ══ -->
+  <div class="section" id="intelligence">
+    <div class="section-header">
+      <div class="section-title">13 · Local News, Announcements &amp; Intelligence</div>
+      <div class="section-desc">Rows 179–198 · Municipal governance, market intelligence, pipeline projects</div>
+    </div>
+    <div class="info-box">
+      <div class="box-label">✓ Confirmed 2025/26 Announcements</div>
+      Drakenstein 2025/26 budget: R4.4bn approved May 28, 2025 · Construction of New Cell Wellington: R266M in draft 2026/2031 MTREF · Property rates cap 12.5% · Wellington WWTW rehabilitation R3.9M · SARB repo held 6.75% March 26, 2026 · SARB consultation on abolishing prime lending rate (Feb 2026 — no impact on economics yet)
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Field</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td class="row-num">179</td><td class="field">Municipal budget 2025/26</td><td class="val highlight">R4.4 billion approved May 28, 2025 (record largest budget) · R714M capex · R3.7bn opex</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Paarl Post / Drakenstein May 2025</td></tr>
+          <tr><td class="row-num">180</td><td class="field">Provincial WCG announcements</td><td class="val">New PSDF in compilation 2024 · Gazette 8935 (2024) · WCG infrastructure pipeline — monitor WCG DEADP</td><td class="src-col"><span class="badge estimated">Estimated</span> WCG</td></tr>
+          <tr><td class="row-num">181</td><td class="field">National budget / infrastructure</td><td class="val">Human Settlements Dev Grant R30.7M · Neighbourhood Dev Partnership Grant R29.5M · EPWP Grant R3.3M · SA GDP growth projected 1.2% for 2025/26</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein MTREF 2025/26</td></tr>
+          <tr><td class="row-num">182</td><td class="field">New commercial / retail pipeline</td><td class="val">Construction of New Cell Wellington (R266M MTREF line) — confirm scope; check local newspapers</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein MTREF 2026/2031</td></tr>
+          <tr><td class="row-num">183</td><td class="field">Residential estate pipeline</td><td class="val">Check Drakenstein approved plans; Simondium Housing Development under grant funding; monitor Property Professional</td><td class="src-col"><span class="badge verify">Verify</span> Drakenstein / Local Media</td></tr>
+          <tr><td class="row-num">184</td><td class="field">Mining / industrial hazards</td><td class="val">Check DMRE notice board and local press — no known active mining rights in Wellington urban core</td><td class="src-col"><span class="badge verify">Verify</span> DMRE / Local Media</td></tr>
+          <tr><td class="row-num">185</td><td class="field">Road / infrastructure projects</td><td class="val">Drommedaris Road rebuild R21M (commenced 2024/25); Lady Grey area upgrade R1.7M; road resealing R17.8M — all 2025/26</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein Budget</td></tr>
+          <tr><td class="row-num">186</td><td class="field">School / hospital construction</td><td class="val">Check WCED / WCDOH infrastructure pipeline — Wellington Hospital is existing public facility</td><td class="src-col"><span class="badge verify">Verify</span> WCED / WCDOH</td></tr>
+          <tr><td class="row-num">187</td><td class="field">TVET / university expansions</td><td class="val">Wellington College — check DHET TVET pipeline for expansion; campus activity supports rental demand</td><td class="src-col"><span class="badge verify">Verify</span> DHET</td></tr>
+          <tr><td class="row-num">188</td><td class="field">Tourism / wine estate developments</td><td class="val">Multiple estates active (Diemersfontein etc.); R266M Wellington development in MTREF — check Tourism WC</td><td class="src-col"><span class="badge verify">Verify</span> Tourism WC / Municipality</td></tr>
+          <tr><td class="row-num">189</td><td class="field">Service delivery protests</td><td class="val">Drakenstein: GOOD Party publicly opposed 2025/26 budget (May 2025); housing backlog / urbanisation cited as key tensions</td><td class="src-col"><span class="badge estimated">Estimated</span> GroundUp / Paarl Post</td></tr>
+          <tr><td class="row-num">190</td><td class="field">Land invasion / housing protest</td><td class="val">Backyard dweller numbers rising in Drakenstein (IDP 2025 noted) — monitor GroundUp and local press</td><td class="src-col"><span class="badge estimated">Estimated</span> GroundUp / Local Media</td></tr>
+          <tr><td class="row-num">191</td><td class="field">Large employer activity</td><td class="val">Check DTIC / local press for new factory or agri-processing plant openings — agri-processing is key economic driver</td><td class="src-col"><span class="badge verify">Verify</span> DTIC / Local Press</td></tr>
+          <tr><td class="row-num">192</td><td class="field">NERSA tariff announcements</td><td class="val">Electricity tariff increase 10.32% for 2025/26 — NERSA-approved; monitor annual determination</td><td class="src-col"><span class="badge confirmed">Confirmed</span> NERSA / Drakenstein Budget</td></tr>
+          <tr><td class="row-num">193</td><td class="field">Municipal audit (AGSA)</td><td class="val">Check AGSA annual report for Drakenstein — DA-led municipality; historically clean / unqualified audit record</td><td class="src-col"><span class="badge verify">Verify</span> AGSA</td></tr>
+          <tr><td class="row-num">194</td><td class="field">MFMA financial health</td><td class="val">Current ratio 2.74:1 (Dec 2025) — healthy; investments/cash confirmed at Nedbank R243.4M; S71/72 reporting current</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Drakenstein S71 Dec 2025</td></tr>
+          <tr><td class="row-num">195</td><td class="field">Political stability of council</td><td class="val">DA-led Drakenstein; coalition risk is moderate — monitor post-2024 election alignment; Executive Mayor: Stephen Korabie</td><td class="src-col"><span class="badge estimated">Estimated</span> News / Municipal Website</td></tr>
+          <tr><td class="row-num">196</td><td class="field">Property agent intelligence</td><td class="val">Consult local agents: Seeff (Wellington), Pam Golding, Rawson — Wellington market +20.5% volume YoY is notable signal</td><td class="src-col"><span class="badge verify">Verify</span> Estate Agents</td></tr>
+          <tr><td class="row-num">197</td><td class="field">Bank valuers' view</td><td class="val">Consult valuer panels at FNB / Standard Bank / Nedbank for LTV conservatism in Wellington area</td><td class="src-col"><span class="badge verify">Verify</span> Bank Valuers</td></tr>
+          <tr><td class="row-num">198</td><td class="field">PropTech data sources</td><td class="val">Lightstone · Deeds Office portal · Property24 · TPN Credit Bureau · PropertyFox · AirDNA · CCH (Cape Coastal Homes)</td><td class="src-col"><span class="badge confirmed">Confirmed</span> Multiple PropTech Platforms</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="report-footer">
+    <div class="footer-grid">
+      <div class="footer-block">
+        <strong>Data Confidence Key</strong>
+        <span class="badge confirmed">Confirmed</span> verified from primary source &nbsp;·&nbsp;
+        <span class="badge estimated">Estimated</span> benchmark / market norm &nbsp;·&nbsp;
+        <span class="badge verify">Verify</span> erf-specific or requires direct confirmation &nbsp;·&nbsp;
+        <span class="badge policy">Policy</span> statutory / regulatory value
+      </div>
+      <div class="footer-block">
+        <strong>Sources</strong>
+        CCH/CMAinfo (2024 Deeds), Drakenstein Municipality IDP/Budget 2025/26, SARB MPC March 2026, SARS, StatsSA, ASAQS, PSDF, Paarl Post, Drakenstein S71 Dec 2025, DFFE, HWC, SANBI
+      </div>
+    </div>
+    <div>Compiled May 2026 · Wellington 7655 Property Intelligence Report</div>
+  </footer>
+
+</main>
+</div>
+
+<script>
+  // Desktop sidebar nav active state
+  const navItems = document.querySelectorAll('.sidebar .nav-item');
+  const sections = document.querySelectorAll('.section');
+
+  function setActive(id) {
+    navItems.forEach(n => {
+      n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+    });
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-15% 0px -60% 0px' });
+
+  sections.forEach(s => obs.observe(s));
+
+  navItems.forEach(n => {
+    n.addEventListener('click', e => {
+      e.preventDefault();
+      const id = n.getAttribute('href').slice(1);
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Section fade-in animation
+  const sectionObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  sections.forEach(s => sectionObs.observe(s));
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navOverlay = document.getElementById('navOverlay');
+  const navDrawer = document.getElementById('navDrawer');
+  const drawerClose = document.getElementById('drawerClose');
+  const drawerNavItems = document.querySelectorAll('.drawer-nav');
+
+  function openDrawer() {
+    navOverlay.style.display = 'block';
+    navDrawer.classList.add('open');
+    setTimeout(() => navOverlay.classList.add('open'), 10);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    navOverlay.classList.remove('open');
+    navDrawer.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { navOverlay.style.display = 'none'; }, 220);
+  }
+
+  menuBtn.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  navOverlay.addEventListener('click', closeDrawer);
+
+  drawerNavItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const id = item.getAttribute('href').slice(1);
+      closeDrawer();
+      setTimeout(() => {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      }, 250);
+    });
+  });
+</script>
+</body>
+</html>
