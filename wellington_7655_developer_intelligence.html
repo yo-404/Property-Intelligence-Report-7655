@@ -1,0 +1,285 @@
+
+<h2 class="sr-only">Developer intelligence dashboard for postcode 7655 Wellington, Western Cape — covering location, planning, environment, services, market data, and feasibility inputs.</h2>
+
+<style>
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem;}
+.tab{padding:6px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;cursor:pointer;background:transparent;color:var(--color-text-secondary);}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+.panel{display:none;}.panel.active{display:block;}
+.kv{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);gap:12px;font-size:13px;}
+.kv:last-child{border-bottom:none;}
+.kv-label{color:var(--color-text-secondary);flex:0 0 52%;line-height:1.4;}
+.kv-val{color:var(--color-text-primary);font-weight:500;text-align:right;flex:0 0 46%;}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500;}
+.badge-g{background:var(--color-background-success);color:var(--color-text-success);}
+.badge-a{background:var(--color-background-warning);color:var(--color-text-warning);}
+.badge-r{background:var(--color-background-danger);color:var(--color-text-danger);}
+.badge-b{background:var(--color-background-info);color:var(--color-text-info);}
+.card2{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+.mcard{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;}
+.mcard-label{font-size:11px;color:var(--color-text-secondary);margin:0 0 4px;}
+.mcard-val{font-size:20px;font-weight:500;color:var(--color-text-primary);margin:0;}
+.mcard-sub{font-size:11px;color:var(--color-text-secondary);margin:2px 0 0;}
+.sec-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .5rem;}
+</style>
+
+<div style="padding:.75rem 0 0;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:.25rem;">
+    <i class="ti ti-map-2" style="font-size:22px;color:var(--color-text-info);" aria-hidden="true"></i>
+    <h1 style="font-size:18px;font-weight:500;margin:0;">Developer intelligence — 7655 Wellington</h1>
+    <span class="badge badge-b">Western Cape</span>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 1rem;">Drakenstein Local Municipality · Cape Winelands District (DC2) · S33°38' E19°00' · Data: 2024–2026</p>
+
+  <div class="grid3" style="margin-bottom:1.25rem;">
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-home-2" aria-hidden="true"></i> Avg house price 2024</p><p class="mcard-val">R1.90M</p><p class="mcard-sub">+21.4% YoY · 335 sales</p></div>
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-chart-line" aria-hidden="true"></i> Total market value 2024</p><p class="mcard-val">R520.1M</p><p class="mcard-sub">+18.2% from 2023</p></div>
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-building-estate" aria-hidden="true"></i> Avg vacant land 2024</p><p class="mcard-val">R865K</p><p class="mcard-sub">68 plots sold</p></div>
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-percentage" aria-hidden="true"></i> Prime lending rate</p><p class="mcard-val">10.25%</p><p class="mcard-sub">SARB May 2026 (repo 6.75%)</p></div>
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-receipt-2" aria-hidden="true"></i> Dev ROI target (WC)</p><p class="mcard-val">15–25%</p><p class="mcard-sub">Residential benchmark</p></div>
+    <div class="mcard"><p class="mcard-label"><i class="ti ti-road" aria-hidden="true"></i> Capex budget 2025/26</p><p class="mcard-val">R714M</p><p class="mcard-sub">Drakenstein Municipality</p></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="location"><i class="ti ti-map-pin" aria-hidden="true"></i> Location</button>
+    <button class="tab" data-tab="planning"><i class="ti ti-file-text" aria-hidden="true"></i> Planning & zoning</button>
+    <button class="tab" data-tab="env"><i class="ti ti-leaf" aria-hidden="true"></i> Environment & risk</button>
+    <button class="tab" data-tab="services"><i class="ti ti-bolt" aria-hidden="true"></i> Services</button>
+    <button class="tab" data-tab="market"><i class="ti ti-chart-bar" aria-hidden="true"></i> Property market</button>
+    <button class="tab" data-tab="finance"><i class="ti ti-calculator" aria-hidden="true"></i> Feasibility & costs</button>
+  </div>
+
+  <div id="location" class="panel active">
+    <div class="grid2">
+      <div class="card2">
+        <div class="sec-title">Geographic identity</div>
+        <div class="kv"><span class="kv-label">Postal code</span><span class="kv-val">7655</span></div>
+        <div class="kv"><span class="kv-label">Suburbs covered</span><span class="kv-val">Wellington, Newton, Hillcrest, Bellview</span></div>
+        <div class="kv"><span class="kv-label">Local Municipality</span><span class="kv-val">Drakenstein LM</span></div>
+        <div class="kv"><span class="kv-label">District Municipality</span><span class="kv-val">Cape Winelands DC2</span></div>
+        <div class="kv"><span class="kv-label">GPS centroid</span><span class="kv-val">S33°38' E19°00'</span></div>
+        <div class="kv"><span class="kv-label">Settlement hierarchy</span><span class="kv-val">Secondary service centre (under Paarl)</span></div>
+        <div class="kv"><span class="kv-label">Urban edge status</span><span class="kv-val">Wellington = Service Centre (PSDF 2014)</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Proximity & connectivity</div>
+        <div class="kv"><span class="kv-label">To Cape Town CBD</span><span class="kv-val">~75 km via N1 (~55 min)</span></div>
+        <div class="kv"><span class="kv-label">To nearest regional centre (Paarl)</span><span class="kv-val">~15 km</span></div>
+        <div class="kv"><span class="kv-label">Road access</span><span class="kv-val">R44 / N1 interchange proximity</span></div>
+        <div class="kv"><span class="kv-label">Rail access</span><span class="kv-val">Wellington train station (Cape Town MetroRail)</span></div>
+        <div class="kv"><span class="kv-label">Neighbouring postcodes</span><span class="kv-val">7654, 7680 (Paarl), 7646 (Paarl East)</span></div>
+        <div class="kv"><span class="kv-label">IDP vision</span><span class="kv-val">Drakenstein 'City of Excellence' IDP 2025</span></div>
+        <div class="kv"><span class="kv-label">Commuter linkage (CT metro)</span><span class="kv-val"><span class="badge badge-g">Within commute range</span></span></div>
+      </div>
+    </div>
+    <div class="card2" style="margin-top:12px;">
+      <div class="sec-title">Additional intelligence</div>
+      <div class="kv"><span class="kv-label">SARB rate trajectory (2026)</span><span class="kv-val"><span class="badge badge-g">Easing — further cuts expected (Investec: Mar & Sep 2026)</span></span></div>
+      <div class="kv"><span class="kv-label">Prime rate trend since Sep 2024</span><span class="kv-val">Cut 150 bps from 11.75% → 10.25%; most significant easing in years</span></div>
+      <div class="kv"><span class="kv-label">Primary economic sector</span><span class="kv-val">Agriculture (viticulture, fruit); food processing; light manufacturing</span></div>
+      <div class="kv"><span class="kv-label">Tourism driver</span><span class="kv-val">Diemersfontein estate + wine route (weekend demand)</span></div>
+      <div class="kv"><span class="kv-label">Labour market draw</span><span class="kv-val">Drakenstein = one of fastest-growing WC municipalities (IDP 2025)</span></div>
+    </div>
+  </div>
+
+  <div id="planning" class="panel">
+    <div class="grid2">
+      <div class="card2">
+        <div class="sec-title">SDF & spatial plans</div>
+        <div class="kv"><span class="kv-label">Active SDF cycle</span><span class="kv-val">2022–2027 (amended 2025/26)</span></div>
+        <div class="kv"><span class="kv-label">PSDF alignment</span><span class="kv-val">PSDF 2020; new PSDF in compilation 2024</span></div>
+        <div class="kv"><span class="kv-label">Local / precinct plan</span><span class="kv-val">Wellington Precinct Plan (confirm if adopted)</span></div>
+        <div class="kv"><span class="kv-label">Densification priority</span><span class="kv-val"><span class="badge badge-g">Wellington CBD & surrounds flagged</span></span></div>
+        <div class="kv"><span class="kv-label">Urban edge</span><span class="kv-val"><span class="badge badge-g">Within urban edge per SDF map</span></span></div>
+        <div class="kv"><span class="kv-label">Inclusionary housing</span><span class="kv-val">WC Inclusionary Housing Policy Framework (2022) applies</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Zoning controls (typical residential)</div>
+        <div class="kv"><span class="kv-label">Applicable scheme</span><span class="kv-val">Drakenstein LUPB (SPLUMA-aligned)</span></div>
+        <div class="kv"><span class="kv-label">Floor Area Ratio (FAR)</span><span class="kv-val">0.5–1.5 (zone-dependent)</span></div>
+        <div class="kv"><span class="kv-label">Max building height</span><span class="kv-val">2–4 storeys (residential)</span></div>
+        <div class="kv"><span class="kv-label">Max site coverage</span><span class="kv-val">60% typical residential</span></div>
+        <div class="kv"><span class="kv-label">Front setback</span><span class="kv-val">4.5–7 m</span></div>
+        <div class="kv"><span class="kv-label">Side setback</span><span class="kv-val">2 m typical</span></div>
+        <div class="kv"><span class="kv-label">Min erf size (subdivision)</span><span class="kv-val">750–1,000 m²</span></div>
+        <div class="kv"><span class="kv-label">Parking requirement</span><span class="kv-val">1.5–2 bays / unit (residential)</span></div>
+      </div>
+    </div>
+    <div class="card2" style="margin-top:12px;">
+      <div class="sec-title">Approval process & timelines</div>
+      <div class="kv"><span class="kv-label">Building plan approval</span><span class="kv-val">30–90 days (Drakenstein target)</span></div>
+      <div class="kv"><span class="kv-label">Rezoning / land use process</span><span class="kv-val">6–18 months (MPT process)</span></div>
+      <div class="kv"><span class="kv-label">EIA duration</span><span class="kv-val">6–24 months (Basic vs Full Scoping)</span></div>
+      <div class="kv"><span class="kv-label">Heritage Impact Assessment</span><span class="kv-val">3–6 months (HWC review)</span></div>
+      <div class="kv"><span class="kv-label">Full approval pipeline estimate</span><span class="kv-val"><span class="badge badge-a">12–24 months pre-construction</span></span></div>
+      <div class="kv"><span class="kv-label">Municipality building plan throughput</span><span class="kv-val">136 approvals in Sept 2023; R121.5M value</span></div>
+      <div class="kv"><span class="kv-label">EPWP job creation obligation 2025/26</span><span class="kv-val">461 job opportunities planned (Drakenstein)</span></div>
+      <div class="kv"><span class="kv-label">Additional insight — rezoning to mixed-use</span><span class="kv-val">Check SDF densification nodes; residential → mixed-use feasible in CBD</span></div>
+    </div>
+  </div>
+
+  <div id="env" class="panel">
+    <div class="grid2">
+      <div class="card2">
+        <div class="sec-title">Water & flood risk</div>
+        <div class="kv"><span class="kv-label">Flood risk zone (100-yr line)</span><span class="kv-val"><span class="badge badge-r">High risk along Berg River corridor</span></span></div>
+        <div class="kv"><span class="kv-label">Watercourse 32m buffer (EIA)</span><span class="kv-val">Check cadastral boundary vs Berg River</span></div>
+        <div class="kv"><span class="kv-label">ESA (Ecological Support Area)</span><span class="kv-val"><span class="badge badge-a">Berg River ESA belt surrounds Wellington</span></span></div>
+        <div class="kv"><span class="kv-label">CBA (Critical Biodiversity Area)</span><span class="kv-val">Check WC Biodiversity Plan 2023 Gazette</span></div>
+        <div class="kv"><span class="kv-label">EIA trigger threshold</span><span class="kv-val">>50 units OR <32m to watercourse</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Geotechnical & climate risk</div>
+        <div class="kv"><span class="kv-label">Soil type</span><span class="kv-val"><span class="badge badge-a">Alluvial soils near Berg River; expansive clay possible</span></span></div>
+        <div class="kv"><span class="kv-label">Dolomite / sinkhole risk</span><span class="kv-val"><span class="badge badge-g">Low risk for Wellington area</span></span></div>
+        <div class="kv"><span class="kv-label">Seismic zone</span><span class="kv-val">Low-moderate (Western Cape, SANS 10160)</span></div>
+        <div class="kv"><span class="kv-label">Wildfire risk</span><span class="kv-val"><span class="badge badge-a">Moderate — Hawequa / Wemmershoek mountains nearby</span></span></div>
+        <div class="kv"><span class="kv-label">Coastal setback</span><span class="kv-val">Not applicable (inland)</span></div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px;">
+      <div class="card2">
+        <div class="sec-title">Heritage & agriculture</div>
+        <div class="kv"><span class="kv-label">Heritage stock</span><span class="kv-val"><span class="badge badge-a">Victorian / colonial buildings in Wellington</span></span></div>
+        <div class="kv"><span class="kv-label">HIA requirement</span><span class="kv-val">Likely for older Wellington CBD sites</span></div>
+        <div class="kv"><span class="kv-label">Agricultural land class</span><span class="kv-val">High-value vineyard / agricultural land surrounds area</span></div>
+        <div class="kv"><span class="kv-label">DALRRD subdivision consent</span><span class="kv-val">Required for agricultural-zoned land</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Additional risk flags</div>
+        <div class="kv"><span class="kv-label">Water supply reliability</span><span class="kv-val"><span class="badge badge-a">WC drought cycle history; 2018 Day Zero precedent</span></span></div>
+        <div class="kv"><span class="kv-label">Contaminated land register</span><span class="kv-val">Check DEA&DP / LUPO database (site-specific)</span></div>
+        <div class="kv"><span class="kv-label">Invasive vegetation clearance</span><span class="kv-val">Check for pines, eucalyptus, wattle on erf</span></div>
+        <div class="kv"><span class="kv-label">Stormwater (SUDS requirement)</span><span class="kv-val">Must align with Drakenstein WSMP; SUDS principles</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="services" class="panel">
+    <div class="grid2">
+      <div class="card2">
+        <div class="sec-title">Utilities — 2025/26 tariffs</div>
+        <div class="kv"><span class="kv-label">Water supply authority</span><span class="kv-val">Drakenstein Municipality (from Voëlvlei Dam / CoCT)</span></div>
+        <div class="kv"><span class="kv-label">Water tariff increase 2025/26</span><span class="kv-val"><span class="badge badge-a">+7.7%</span></span></div>
+        <div class="kv"><span class="kv-label">Sanitation tariff increase 2025/26</span><span class="kv-val"><span class="badge badge-g">+5.9%</span></span></div>
+        <div class="kv"><span class="kv-label">Electricity distributor</span><span class="kv-val">Drakenstein Municipality (Eskom supply)</span></div>
+        <div class="kv"><span class="kv-label">Electricity tariff increase 2025/26</span><span class="kv-val"><span class="badge badge-r">+10.32%</span></span></div>
+        <div class="kv"><span class="kv-label">Paarl WWTW upgrade</span><span class="kv-val"><span class="badge badge-g">R1.4bn BFI grant — unlocks residential dev</span></span></div>
+        <div class="kv"><span class="kv-label">Fibre / broadband coverage</span><span class="kv-val">Partial — check Openserve / Vumatel FTTP coverage</span></div>
+        <div class="kv"><span class="kv-label">Refuse removal</span><span class="kv-val">Yes — municipal weekly collection</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Municipal capex 2025/26</div>
+        <div class="kv"><span class="kv-label">Total capital budget</span><span class="kv-val">R714 million</span></div>
+        <div class="kv"><span class="kv-label">Water & sanitation investment</span><span class="kv-val"><span class="badge badge-g">R465 million</span></span></div>
+        <div class="kv"><span class="kv-label">Roads & stormwater</span><span class="kv-val">R51.7 million</span></div>
+        <div class="kv"><span class="kv-label">BFI / USDG grant pipeline</span><span class="kv-val">R1.4bn (Paarl WWTW & bulk sewer)</span></div>
+        <div class="kv"><span class="kv-label">Southern Paarl Bulk Sewer</span><span class="kv-val"><span class="badge badge-g">Under construction — unlocks future residential</span></span></div>
+        <div class="kv"><span class="kv-label">Property rate cap 2025/26</span><span class="kv-val"><span class="badge badge-a">12.5% increase (Drakenstein)</span></span></div>
+      </div>
+    </div>
+    <div class="card2" style="margin-top:12px;">
+      <div class="sec-title">Additional insight — infrastructure signals</div>
+      <div class="kv"><span class="kv-label">Bulk sewer capacity confirmation</span><span class="kv-val">Confirm with Drakenstein Engineering for proposed development scale before committing</span></div>
+      <div class="kv"><span class="kv-label">Electricity kVA capacity</span><span class="kv-val">Confirm available kVA at nearest substation with Drakenstein Electro-Tech</span></div>
+      <div class="kv"><span class="kv-label">Load-shedding mitigation</span><span class="kv-val">Factor solar + battery storage into building spec; include in feasibility cost</span></div>
+      <div class="kv"><span class="kv-label">Road reserve watchout</span><span class="kv-val">Check SANRAL / SDF maps for road widening servitude reservation near erf</span></div>
+    </div>
+  </div>
+
+  <div id="market" class="panel">
+    <div class="grid2" style="margin-bottom:12px;">
+      <div class="card2">
+        <div class="sec-title">2024 sales activity (Deeds Office)</div>
+        <div class="kv"><span class="kv-label">Total registered sales</span><span class="kv-val">335 <span class="badge badge-g">+20.5% YoY</span></span></div>
+        <div class="kv"><span class="kv-label">Total market value</span><span class="kv-val">R520.1M <span class="badge badge-g">+18.2%</span></span></div>
+        <div class="kv"><span class="kv-label">Avg own-title house price</span><span class="kv-val">R1,896,425 (+21.35%)</span></div>
+        <div class="kv"><span class="kv-label">Avg sectional title price</span><span class="kv-val">R894,889 (45 units sold)</span></div>
+        <div class="kv"><span class="kv-label">Avg vacant land price</span><span class="kv-val">R865,383 (68 plots sold)</span></div>
+        <div class="kv"><span class="kv-label">Highest sale price</span><span class="kv-val">R10.5M (Diemersfontein Village, 1,700m²)</span></div>
+        <div class="kv"><span class="kv-label">Premium estate avg (Diemersfontein)</span><span class="kv-val">R4,798,750 (4 sales 2024)</span></div>
+        <div class="kv"><span class="kv-label">Price per m² (residential)</span><span class="kv-val">R35,000–R50,000/m²</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Rental market & yields</div>
+        <div class="kv"><span class="kv-label">Avg monthly rental</span><span class="kv-val">R6,500–R12,000 / month</span></div>
+        <div class="kv"><span class="kv-label">Gross rental yield (long-term)</span><span class="kv-val">7–9%</span></div>
+        <div class="kv"><span class="kv-label">Short-term rental yield</span><span class="kv-val">8–11% (AirBnB / STR)</span></div>
+        <div class="kv"><span class="kv-label">STR yield — studio (model)</span><span class="kv-val"><span class="badge badge-g">10.31%</span></span></div>
+        <div class="kv"><span class="kv-label">STR yield — 2-bed (model)</span><span class="kv-val"><span class="badge badge-g">9.38%</span></span></div>
+        <div class="kv"><span class="kv-label">Retail net yield on cost</span><span class="kv-val">~8.3% (model)</span></div>
+        <div class="kv"><span class="kv-label">Rental escalation norm</span><span class="kv-val">~8–10% p.a. (CPI+)</span></div>
+        <div class="kv"><span class="kv-label">Days on market (residential)</span><span class="kv-val">~60–90 days</span></div>
+      </div>
+    </div>
+    <div class="card2">
+      <div class="sec-title">Trends, finance & additional insights</div>
+      <div class="kv"><span class="kv-label">5-year capital growth (WC trend)</span><span class="kv-val">~8–12% p.a. (FNB Property Barometer)</span></div>
+      <div class="kv"><span class="kv-label">Bond approval rate (WC)</span><span class="kv-val">~74–78% (FNB WC data)</span></div>
+      <div class="kv"><span class="kv-label">Prime lending rate (May 2026)</span><span class="kv-val">10.25% — down from 11.75% in Sep 2024</span></div>
+      <div class="kv"><span class="kv-label">Development loan margin</span><span class="kv-val">Prime + 2–3% = effective ~12.25–13.25%</span></div>
+      <div class="kv"><span class="kv-label">Loan-to-cost ratio (LTC)</span><span class="kv-val">70–87% (lender-dependent)</span></div>
+      <div class="kv"><span class="kv-label">Commercial property yields (secondary WC towns)</span><span class="kv-val">~8–10% office / retail</span></div>
+      <div class="kv"><span class="kv-label">Market momentum signal</span><span class="kv-val"><span class="badge badge-g">Strong — 20.5% volume growth + 18.2% value growth in 2024</span></span></div>
+      <div class="kv"><span class="kv-label">Rate easing impact on affordability</span><span class="kv-val"><span class="badge badge-g">150 bps cuts since Sep 2024 — buyers qualify for larger bonds</span></span></div>
+      <div class="kv"><span class="kv-label">Planned / competing developments</span><span class="kv-val">Check municipality approved plans & local press (Paarl Post / DFA)</span></div>
+    </div>
+  </div>
+
+  <div id="finance" class="panel">
+    <div class="grid2">
+      <div class="card2">
+        <div class="sec-title">Development contributions (Drakenstein 2025/26)</div>
+        <div class="kv"><span class="kv-label">Water connection DC</span><span class="kv-val">Unit-size dependent — Drakenstein Tariff Book 2025/26</span></div>
+        <div class="kv"><span class="kv-label">Sewer connection DC</span><span class="kv-val">Per Drakenstein Tariff Book 2025/26</span></div>
+        <div class="kv"><span class="kv-label">Electricity connection DC</span><span class="kv-val">kVA-based — Drakenstein Tariff Book</span></div>
+        <div class="kv"><span class="kv-label">NHBRC enrolment fee</span><span class="kv-val">1.3% / 1.0% / 0.75% / 0.5% by price bracket; max R34,000/unit</span></div>
+        <div class="kv"><span class="kv-label">Transfer duty (buyer)</span><span class="kv-val">0% below R1.1M; sliding scale above (SARS 2025)</span></div>
+        <div class="kv"><span class="kv-label">Bond registration cost</span><span class="kv-val">~1.2–1.5% of bond value</span></div>
+        <div class="kv"><span class="kv-label">VAT on development sales</span><span class="kv-val">15%</span></div>
+        <div class="kv"><span class="kv-label">Corporate income tax</span><span class="kv-val">27% (CIT from 2023)</span></div>
+        <div class="kv"><span class="kv-label">CGT effective rate (company)</span><span class="kv-val">66.6% inclusion × 27% CIT = 18% effective</span></div>
+      </div>
+      <div class="card2">
+        <div class="sec-title">Construction & professional fee benchmarks</div>
+        <div class="kv"><span class="kv-label">Construction cost per m² (WC mid-range 2025)</span><span class="kv-val">R14,000–R22,000/m² (ASAQS BER)</span></div>
+        <div class="kv"><span class="kv-label">Construction cost escalation</span><span class="kv-val">~6–9% p.a. (WC 2024/25)</span></div>
+        <div class="kv"><span class="kv-label">Target R/m² selling price (Wellington)</span><span class="kv-val">R38,000–R52,000/m²</span></div>
+        <div class="kv"><span class="kv-label">Architect fee</span><span class="kv-val">~4–6% of construction cost (SACAP)</span></div>
+        <div class="kv"><span class="kv-label">Quantity surveyor fee</span><span class="kv-val">~2–3% (ASAQS)</span></div>
+        <div class="kv"><span class="kv-label">Project manager fee</span><span class="kv-val">~1.5–2.5% (SACPCMP)</span></div>
+        <div class="kv"><span class="kv-label">Total professional fees</span><span class="kv-val">~12–18% of construction cost</span></div>
+        <div class="kv"><span class="kv-label">Sales commission</span><span class="kv-val">3.5–6% (PPRA negotiated)</span></div>
+        <div class="kv"><span class="kv-label">Contingency provision</span><span class="kv-val">2.4% of construction cost (model norm)</span></div>
+      </div>
+    </div>
+    <div class="card2" style="margin-top:12px;">
+      <div class="sec-title">Feasibility returns & additional finance inputs</div>
+      <div class="kv"><span class="kv-label">Developer ROI benchmark (residential WC)</span><span class="kv-val"><span class="badge badge-g">15–25% return on cost</span></span></div>
+      <div class="kv"><span class="kv-label">Debt service cover ratio (min)</span><span class="kv-val">>1.25× (typical bank requirement)</span></div>
+      <div class="kv"><span class="kv-label">Section 13 tax depreciation allowance</span><span class="kv-val">5% p.a. on construction cost (SARS S13/13ter)</span></div>
+      <div class="kv"><span class="kv-label">Dividend withholding tax</span><span class="kv-val">20% (from SPV)</span></div>
+      <div class="kv"><span class="kv-label">Land acquisition cost (Phase 1+2 sample)</span><span class="kv-val">R27.75M total (confirm vs current market)</span></div>
+      <div class="kv"><span class="kv-label">Furniture pack cost (studio STR)</span><span class="kv-val">~R125,670 per unit</span></div>
+      <div class="kv"><span class="kv-label">Sectional title levy benchmark</span><span class="kv-val">R850–R2,500/month (complex-dependent)</span></div>
+      <div class="kv"><span class="kv-label">SARB rate outlook (additional insight)</span><span class="kv-val"><span class="badge badge-g">Investec forecasts cuts Mar & Sep 2026 — repo potentially reaching 6.25%; supports project-level DCF assumptions</span></span></div>
+      <div class="kv"><span class="kv-label">Demographics risk flag</span><span class="kv-val"><span class="badge badge-a">Mid-to-lower income base in Wellington; sectional title / affordable product likely to outperform luxury in volume</span></span></div>
+      <div class="kv"><span class="kv-label">Housing backlog opportunity</span><span class="kv-val"><span class="badge badge-g">Significant subsidised housing demand in Drakenstein IDP 2025 — consider mixed-income scheme for FLISP / BNG grants</span></span></div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--color-text-secondary);margin:1.25rem 0 0;border-top:0.5px solid var(--color-border-tertiary);padding-top:.75rem;">Sources: Drakenstein Municipality, Deeds Office / CCH 2024, SARB (May 2026 prime rate 10.25%), StatsSA, WCG, ASAQS, SARS, Lightstone, FNB, National Treasury. Erf-specific values require site verification. Not a substitute for professional legal, planning or financial advice.</p>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+</script>
